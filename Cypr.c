@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  // check if the username is alphabetic only and only
+  // check if the username is alphabetic only 
   int len = strlen(argv[1]);
   for (int i = 0; i < len; i++) {
     if (!isalpha(argv[1][i])) {
