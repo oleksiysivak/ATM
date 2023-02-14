@@ -2,14 +2,15 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
+#include "Cypr.h"
 #define MAX_LEN 100
 
-void caesar_encode(char message[], char direction, int offset);
-void caesar_decode(char message[], char direction, int offset);
-void vigenere_encode(char message[], char key[]);
-void vigenere_decode(char message[], char key[]);
-void salted_caesar_encode(char message[], char direction, int offset, char username[]);
-void salted_caesar_decode(char message[], char direction, int offset, char username[]);
+char caesar_encode(char message[], char direction, int offset);
+char caesar_decode(char message[], char direction, int offset);
+char vigenere_encode(char message[], char key[]);
+char vigenere_decode(char message[], char key[]);
+//char salted_caesar_encode(char message, char direction, int offset, char salt);
+//salted_caesar_decode(char message, char direction, int offset, char salt);
 
 int main(int argc, char *argv[]) {
   // check if the user provided a username
@@ -45,7 +46,8 @@ int main(int argc, char *argv[]) {
     scanf(" %c", &choice);
 
     // ask for the method if the user wants to decode a message
-    if (choice == 'd') {
+    if (choice == 'd') 
+    {
       printf("Which method do you want to use? (c/v/s)\n");
       scanf(" %c", &choice);
 
@@ -64,15 +66,21 @@ int main(int argc, char *argv[]) {
         scanf("%s", key);
         vigenere_decode(message, key);
     } 
-      else if (choice == 's') 
-    {
+      else if (choice == 's')
+      {
         printf("Left or Right? (l/r)\n");
         scanf(" %c", &direction);
         printf("Offset?\n");
         scanf("%d", &offset);
         salted_caesar_decode(message, direction, offset, username);
-    }
-     else if (choice == 'e') 
+      }
+while (2) 
+    // query the user on whether they want to encode or decode a message
+    printf("Do you want to encode or decode a message? (e/d)\n");
+    scanf(" %c", &choice);
+    
+    // ask for the method if the user wants to encode a message
+    if (choice == 'e') 
     {
       printf("Which method do you want to use? (c/v/s)\n");
       scanf(" %c", &choice);
@@ -98,7 +106,7 @@ int main(int argc, char *argv[]) {
         scanf(" %c", &direction);
         printf("Offset?\n");
         scanf("%d", &offset);
-        salted_caesar_encode(message, direction, offset, username);
+        salted_caesar_decode(message, direction, offset, username);
     }
 // Caesar cipher implementation
 char *caesar_encode(char *message, int offset, char direction) {
@@ -109,18 +117,18 @@ char *caesar_encode(char *message, int offset, char direction) {
   }
   encoded[i] = '\0';
   return encoded;
-}
-
-char *caesar_decode(char *message, int offset, char direction) {
+  }
+char *caesar_decode(char message, int offset, char direction) 
+{
   return caesar_encode(message, offset, direction == 'r' ? 'l' : 'r');
 }
 
 // Vigenère cipher implementation
-char *vigenere_encode(char *message, char *key) {
+char vigenere_encode(char message, char *key) {
   int i, j;
   int message_len = strlen(message);
   int key_len = strlen(key);
-  char *encoded = malloc(message_len + 1);
+  char encoded = malloc(message_len + 1);
   for (i = 0; i < message_len; i++) {
     encoded[i] = message[i] + key[i % key_len];
   }
@@ -128,11 +136,11 @@ char *vigenere_encode(char *message, char *key) {
   return encoded;
 }
 
-char *vigenere_decode(char *message, char *key) {
+char vigenere_decode(char message, char key) {
   int i, j;
   int message_len = strlen(message);
   int key_len = strlen(key);
-  char *decoded = malloc(message_len + 1);
+  char decoded = malloc(message_len + 1);
   for (i = 0; i < message_len; i++) {
     decoded[i] = message[i] - key[i % key_len];
   }
@@ -141,7 +149,7 @@ char *vigenere_decode(char *message, char *key) {
 }
 
 // Salted Caesar cipher implementation
-char *salted_caesar_encode(char *message, int offset, char direction, char *salt) {
+char salted_caesar_encode(char message, int offset, char direction, char salt) {
   int i;
   int message_len = strlen(message);
   int salt_len = strlen(salt);
@@ -153,12 +161,12 @@ char *salted_caesar_encode(char *message, int offset, char direction, char *salt
   encoded[message_len + salt_len] = '\0';
   return encoded;
 }
-
-char *salted_caesar_decode(char *message, int offset, char direction, char *salt) {
+char salted_caesar_decode(char message[], int offset, char direction, char salt)
+ {
   int i;
   int message_len = strlen(message) - strlen(salt);
   int salt_len = strlen(salt);
-  char *decoded = malloc(message_len + 1);
+  char decoded = malloc(message_len + 1);
   for (i = 0; i < message_len; i++) 
   {
     decoded[i] = message[i] - (direction == 'r' ? offset : -offset) - salt[i% salt_len];
@@ -167,5 +175,4 @@ char *salted_caesar_decode(char *message, int offset, char direction, char *salt
   decoded[message_len - salt_len] = '\0';
   return decoded;
 }
-  return 0
-    
+
