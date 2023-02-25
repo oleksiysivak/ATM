@@ -1,5 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
+/*used stdlib in leu of helpers, no get_string, used whole line scanf%99, code is functional but L||R and number input 
+sometimes crash*/
 
 // Declarations
 int getChoice();
@@ -220,7 +222,7 @@ void getCeasarInfo(char *type, int *key) {
   printf("Would you like to choose left or right offset?(Enter l or r): ");
   scanf(" %c", type);
 
-  // validate offset (working with numbers hit or miss)
+  // validate offset (working, crashes w numbers)
   while (*type != 'l' && *type != 'L' && *type != 'r' && *type != 'R') {
     printf("Invalid choice, please enter l or r: ");
     scanf(" %c", type);
@@ -282,7 +284,7 @@ void vigenereDecrypt(char *message, char *key) {
     i++;
   }
 }
-//convert to CAPlock
+//convert to CAPs
 void convertToUpperCase(char *input) {
   int i = 0;
 
