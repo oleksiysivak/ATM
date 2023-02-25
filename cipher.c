@@ -1,6 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
-// Function declarations
+
+// Declarations
 int getChoice();
 void encrypt(const char *userName);
 void decrypt();
@@ -18,10 +19,10 @@ int main(int argc, char **argv) {
 
   // if user didn't enter any command line argument, print out the usage
   if (argc != 2) {
-    printf("Usage /assignment1 username\n");
+    printf("No valid username line argument\n");
     return 1;
   }
-  // print welcome message
+  // welcome message
   convertToUpperCase(argv[1]);
   printf("Welcome %s to the cipher app!\n\n", argv[1]);
   int choice = 0;
@@ -41,9 +42,9 @@ int main(int argc, char **argv) {
   return 0;
 }
 
-// method to get user choice
+// get first choice
 int getChoice() {
-  // print menu
+  // main menu
   printf("What Would you like to do?\n");
   printf("1. Encode a message\n");
   printf("2. Decode a message\n");
@@ -54,7 +55,7 @@ int getChoice() {
   int choice;
   scanf("%d", &choice);
 
-  // validate choice
+  // invalid choice
   while (choice < 1 || choice > 3) {
     printf("Invalid choice, please enter a number between 1 and 3: ");
     scanf("%d", &choice);
@@ -64,7 +65,7 @@ int getChoice() {
 
 void encrypt(const char *username) {
 
-  // get the cipher choice
+  // cipher choice menu
   int cipherChoice = getCipherChoice();
 
   char message[100];
@@ -72,16 +73,15 @@ void encrypt(const char *username) {
   printf("Enter the message to encrypt: ");
   // ignore a newline character
   getchar();
-  // read a complete line
   scanf("%99[^\n]", message);
 
   convertToUpperCase(message);
-  // if user chose Ceasar Cipher
+  // Ceasar Cipher
   if (cipherChoice == 1) {
     ceasarEncrypt(message);
   }
 
-  // if User chose Vigenere Cipher
+  // Vigenere Cipher
   else if (cipherChoice == 2) {
     printf("Enter the key: ");
     scanf("%s", key);
@@ -89,7 +89,7 @@ void encrypt(const char *username) {
     vigenereEncrypt(message, key);
   }
 
-  // if user Chose salted Ceasar
+  // Salted Ceasar
   else if (cipherChoice == 3) {
     ceasarEncrypt(message);
     vigenereEncrypt(message, username);
@@ -116,7 +116,7 @@ int getCipherChoice() {
   int choice;
   scanf("%d", &choice);
 
-  // validate choice
+  // invalid  choice
   while (choice < 1 || choice > 3) {
     printf("Invalid choice, please enter a number between 1 and 3: ");
     scanf("%d", &choice);
@@ -132,15 +132,13 @@ void decrypt(char *username) {
   char message[100];
   char key[100];
   printf("Enter the message to decrypt: ");
-  // ignore a newline character
   getchar();
-  // read a complete lines
   scanf("%99[^\n]", message);
 
-  // conver the message to uppercase
+  // CAPs converter
   convertToUpperCase(message);
 
-  // Use appropriate Cipher
+  // Cypher to use choice
   if (cipherChoice == 1) {
     ceasarDecrypt(message);
   } else if (cipherChoice == 2) {
@@ -217,12 +215,12 @@ void ceasarDecrypt(char *message) {
   }
 }
 
-// method takes the type of ceasar cipher and the offset
+// ceasar cipher info and the offset
 void getCeasarInfo(char *type, int *key) {
   printf("Would you like to choose left or right offset?(Enter l or r): ");
   scanf(" %c", type);
 
-  // validate offset
+  // validate offset (working with numbers hit or miss)
   while (*type != 'l' && *type != 'L' && *type != 'r' && *type != 'R') {
     printf("Invalid choice, please enter l or r: ");
     scanf(" %c", type);
@@ -251,7 +249,7 @@ void vigenereEncrypt(char *message, const char *key) {
       // increment counter
 
       j++;
-      // if we have reached end of key, start over
+      // end of key, start over
       if (key[j] == '\0') {
         j = 0;
       }
@@ -276,7 +274,7 @@ void vigenereDecrypt(char *message, char *key) {
       // increment counter
 
       j++;
-      // if we have reached end of key, start over
+      // reached end of key, start over
       if (key[j] == '\0') {
         j = 0;
       }
@@ -284,14 +282,14 @@ void vigenereDecrypt(char *message, char *key) {
     i++;
   }
 }
-
+//convert to CAPlock
 void convertToUpperCase(char *input) {
   int i = 0;
 
-  // Iterateo over the string
+  // capital converter
   while (input[i] != '\0') {
 
-    // if ith character is lower, convert it to corrosponding Capital letter
+    // if i lower 
     if (input[i] >= 97 && input[i] <= 122) {
       input[i] -= 32;
     }
